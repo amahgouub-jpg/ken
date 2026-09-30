@@ -8,20 +8,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: set up JDK 11
+    # 🟢 ضبط الجافا على 17 ليتوافق مع محرك جيت هب الافتراضي
+    - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '11'
-
-    # 🟢 إجبار السيرفر على توليد wrapper بنسخة 7.5 مستقرة تمنع سحب Gradle 9 العشوائي
-    - name: Setup Gradle wrapper
-      run: gradle wrapper --gradle-version 7.5
+        java-version: '17'
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build debug APK
+    # 🟢 استخدام ملف gradlew المحلي للمشروع لتجنب استدعاء محرك النظام العشوائي
+    - name: Build with Gradle
       run: ./gradlew assembleDebug --stacktrace
       
     - name: Upload APK
